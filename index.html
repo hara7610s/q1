@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>順番あてクイズ｜馬券風チケット（固定ベース画像：img/test.png）</title>
+  <title>ウェディングパーティー  サンレンタン｜馬券投票ページ</title>
   <style>
     :root {
       /* 明るいトーン */
@@ -31,8 +31,8 @@
 </head>
 <body>
   <div class="wrap">
-    <h1>順番あてクイズ｜馬券風チケット（固定ベース画像）</h1>
-    <p class="lead">このページは <code>img/test.png</code> を<b>固定のベース画像</b>として読み込み、その上にテキストを重ねて出力します。<b>発行時刻</b>も印字。</p>
+    <h1>ウェディングパーティー  サンレンタン｜馬券投票ページ</h1>
+    <p class="lead">このページは、ウェディングパーティーのクイズコーナー  サンレンタンで馬券投票（回答）するためのページです。お金はかかっていませんのでご安心ください。</p>
 
     <div class="card" style="margin-top:8px">
       <form id="quizForm" onsubmit="return false;" class="row">
@@ -41,33 +41,33 @@
           <input id="race" placeholder="例: 第◯回 クイズダービー" required />
         </div>
         <div>
-          <label>ニックネーム（任意）</label>
-          <input id="nickname" placeholder="例: そいち" />
+          <label>ニックネーム</label>
+          <input id="nickname" placeholder="例: はらそ" />
         </div>
         <div>
           <label>1位 予想</label>
           <select id="pick1" required>
             <option value="">選択してください</option>
-            <option>Aチーム</option><option>Bチーム</option><option>Cチーム</option><option>Dチーム</option>
+            <option>1 有村架純</option><option>2 多部未華子</option><option>3 あの</option><option>4 幾田りら</option><option>5 ヒコロヒー</option><option>6 ラランドサーヤ</option><option>7 だれか</option>
           </select>
         </div>
         <div>
           <label>2位 予想</label>
           <select id="pick2" required>
             <option value="">選択してください</option>
-            <option>Aチーム</option><option>Bチーム</option><option>Cチーム</option><option>Dチーム</option>
+            <option>1 有村架純</option><option>2 多部未華子</option><option>3 あの</option><option>4 幾田りら</option><option>5 ヒコロヒー</option><option>6 ラランドサーヤ</option><option>7 だれか</option>
           </select>
         </div>
         <div>
-          <label>3位 予想（任意）</label>
+          <label>3位 予想</label>
           <select id="pick3">
             <option value="">選択してください</option>
-            <option>Aチーム</option><option>Bチーム</option><option>Cチーム</option><option>Dチーム</option>
+            <option>1 有村架純</option><option>2 多部未華子</option><option>3 あの</option><option>4 幾田りら</option><option>5 ヒコロヒー</option><option>6 ラランドサーヤ</option><option>7 だれか</option>
           </select>
         </div>
         <div style="grid-column:1/-1; display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
-          <button class="btn" id="submitBtn">馬券風チケット発行</button>
-          <a id="downloadLink" class="btn secondary" download>PNG保存</a>
+          <button class="btn" id="submitBtn">馬券発行</button>
+          <a id="downloadLink" class="btn secondary" download>画像保存</a>
           <button id="copyBtn" type="button" class="btn ghost">画像をコピー</button>
           <span id="status" class="tips"></span>
         </div>
@@ -77,8 +77,7 @@
 
     <div class="card" style="margin-top:12px">
       <h3 style="margin:0 0 8px">プレビュー</h3>
-      <canvas id="ticket" width="1200" height="600" aria-label="馬券風プレビュー"></canvas>
-      <p class="tips">推奨：ベース画像は横1200×縦600px。文字が重なる領域は安全マージン（上下48px, 左右56px）を空けると綺麗です。</p>
+      <canvas id="ticket" width="850" height="530" aria-label="馬券風プレビュー"></canvas>
     </div>
   </div>
 
@@ -163,13 +162,6 @@
     else { // フォールバック：明るい帯＋白面
       ctx.fillStyle = '#ffffff'; roundRect(24,24, W-48, H-48, 24, true); lightBand(40,60, W-80, 90);
     }
-
-    // タイトル / レース名
-    ctx.font = 'bold 44px system-ui, "Noto Sans JP"'; blockTitle('順番あてクイズ — 馬券風チケット', 56, 110);
-    ctx.font = '700 40px system-ui, "Noto Sans JP"'; ctx.fillStyle = theme.race; labelText(trunc(data.race,30), 56, 160);
-
-    // 本文枠（白地）
-    ctx.fillStyle = theme.panel; roundRect(56, 190, W-112, 300, 18, true);
 
     // 見出し
     ctx.fillStyle = theme.sub; ctx.font = '600 24px system-ui, "Noto Sans JP"'; labelText('予想順位', 72, 226, theme.sub);
