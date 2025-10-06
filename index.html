@@ -3,19 +3,11 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>順番あてクイズ｜馬券風チケット（明るいトーン＋外部ベース画像対応）</title>
+  <title>順番あてクイズ｜馬券風チケット（固定ベース画像：img/test.png）</title>
   <style>
     :root {
-      /* —— 明るいトーン —— */
-      --bg:#f7fbff;          /* 背景（うすい水色系） */
-      --card:#ffffff;        /* カード面 */
-      --ink:#0f172a;         /* 文字色(濃い紺) */
-      --muted:#64748b;       /* 補助テキスト */
-      --line:#e2e8f0;        /* 枠線 */
-      --acc:#16a34a;         /* アクセント(明るいグリーン) */
-      --acc-ink:#062b12;     /* アクセント上の文字色 */
-      --soft:#f1f5f9;        /* ソフト面(フッター帯など) */
-      --focus:#60a5fa;       /* フォーカス青 */
+      /* 明るいトーン */
+      --bg:#f7fbff; --card:#ffffff; --ink:#0f172a; --muted:#64748b; --line:#e2e8f0; --acc:#16a34a; --acc-ink:#062b12; --soft:#f1f5f9; --focus:#60a5fa; --race:#0ea5e9;
     }
     *{box-sizing:border-box}
     body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,"Noto Sans JP","Hiragino Kaku Gothic ProN","Yu Gothic UI","Meiryo",sans-serif}
@@ -34,11 +26,13 @@
     .tips{font-size:12px;color:var(--muted)}
     canvas{max-width:100%;height:auto;border-radius:12px;border:1px solid var(--line);background:#fff}
   </style>
+  <!-- 任意：プリロード（同一オリジンの固定ベース画像） -->
+  <link rel="preload" as="image" href="img/test.png">
 </head>
 <body>
   <div class="wrap">
-    <h1>順番あてクイズ｜馬券風チケット（明るいトーン＋外部ベース画像対応）</h1>
-    <p class="lead">スマホから予想を入力 → <b>外部のPNG/JPGをベース</b>にテキストを重ねて馬券風画像を発行します。<b>発行時刻</b>も印字。</p>
+    <h1>順番あてクイズ｜馬券風チケット（固定ベース画像）</h1>
+    <p class="lead">このページは <code>img/test.png</code> を<b>固定のベース画像</b>として読み込み、その上にテキストを重ねて出力します。<b>発行時刻</b>も印字。</p>
 
     <div class="card" style="margin-top:8px">
       <form id="quizForm" onsubmit="return false;" class="row">
@@ -71,18 +65,6 @@
             <option>Aチーム</option><option>Bチーム</option><option>Cチーム</option><option>Dチーム</option>
           </select>
         </div>
-        <div>
-          <label>ベース画像URL（外部PNG/JPG）</label>
-          <input id="baseImageUrl" placeholder="例: https://cdn.example.com/ticket_base.png" />
-          <div class="tips">※ CORSが許可されたホスティング（Cloudinary / Netlify / GitHub Raw など）に置いてください。</div>
-        </div>
-        <div>
-          <label>ベース画像のフィット</label>
-          <select id="baseFit">
-            <option value="cover">カバー（余白なし・天地左右をトリミング）</option>
-            <option value="contain">コンテイン（全体表示・余白あり）</option>
-          </select>
-        </div>
         <div style="grid-column:1/-1; display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
           <button class="btn" id="submitBtn">馬券風チケット発行</button>
           <a id="downloadLink" class="btn secondary" download>PNG保存</a>
@@ -90,40 +72,38 @@
           <span id="status" class="tips"></span>
         </div>
       </form>
+      <p class="tips" style="margin-top:8px">※ ベース画像は <code>img/test.png</code> を利用します。<br>GitHub Pages（Project Pages）の場合、<code>index.html</code> と同階層に <code>img/</code> フォルダを置いてください。</p>
     </div>
 
     <div class="card" style="margin-top:12px">
       <h3 style="margin:0 0 8px">プレビュー</h3>
       <canvas id="ticket" width="1200" height="600" aria-label="馬券風プレビュー"></canvas>
-      <p class="tips">推奨：横1200×縦600pxのベース画像。文字が重なる領域は安全マージン（上下48px, 左右56px）を空けると綺麗です。</p>
+      <p class="tips">推奨：ベース画像は横1200×縦600px。文字が重なる領域は安全マージン（上下48px, 左右56px）を空けると綺麗です。</p>
     </div>
   </div>
-
-<script>
-// ページ読込後に自動セット
-document.getElementById('baseImageUrl').value = 'img/test.png';
-</script>
 
 <script>
   const $ = (s)=>document.querySelector(s);
   const canvas = $('#ticket');
   const ctx = canvas.getContext('2d');
 
-  // —— 明るいパレット ——
-  const theme = {
-    bg:'#f7fbff', panel:'#ffffff', ink:'#0f172a', sub:'#475569',
-    accent:'#16a34a', line:'#e2e8f0', subtle:'#f1f5f9', race:'#0ea5e9'
-  };
+  // 固定ベース画像の設定
+  const BASE_IMAGE_URL = 'img/test.png'; // リポジトリ内の相対パス
+  const BASE_FIT = 'cover';              // 'cover' or 'contain'
+
+  // 明るいパレット
+  const theme = { bg:'#f7fbff', panel:'#ffffff', ink:'#0f172a', sub:'#475569', accent:'#16a34a', line:'#e2e8f0', subtle:'#f1f5f9', race:'#0ea5e9' };
 
   const pad = (n)=> String(n).padStart(2,'0');
   const formatTs = (d)=> `${d.getFullYear()}/${pad(d.getMonth()+1)}/${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`;
   const trunc=(s,n)=>!s? s : (s.length>n? s.slice(0,n-1)+'…':s);
 
+  let baseImg = null; // キャッシュ
+
   function loadImage(url){
     return new Promise((resolve,reject)=>{
-      if(!url) return resolve(null);
       const img = new Image();
-      img.crossOrigin = 'anonymous'; // CORS必須
+      // 同一オリジン想定（GitHub Pages/Netlifyなど）。CORS不要。
       img.onload = ()=> resolve(img);
       img.onerror = (e)=> reject(e);
       img.src = url + (url.includes('?')?'&':'?') + 't=' + Date.now(); // キャッシュバイパス
@@ -148,9 +128,7 @@ document.getElementById('baseImageUrl').value = 'img/test.png';
 
   function lightBand(x,y,w,h){
     const g = ctx.createLinearGradient(x,y,x+w,y);
-    g.addColorStop(0,'#e0f2fe'); // 水色
-    g.addColorStop(0.55,'#bae6fd');
-    g.addColorStop(1,'#bbf7d0'); // みどり
+    g.addColorStop(0,'#e0f2fe'); g.addColorStop(0.55,'#bae6fd'); g.addColorStop(1,'#bbf7d0');
     ctx.fillStyle=g; ctx.fillRect(x,y,w,h);
   }
 
@@ -165,46 +143,36 @@ document.getElementById('baseImageUrl').value = 'img/test.png';
     ctx.strokeStyle = theme.line; ctx.lineWidth = 1; ctx.stroke();
   }
 
-  function labelText(text, x, y, color){
-    ctx.fillStyle = color || theme.ink; ctx.fillText(text, x, y);
-  }
+  function labelText(text, x, y, color){ ctx.fillStyle = color || theme.ink; ctx.fillText(text, x, y); }
+  function blockTitle(text, x, y){ ctx.save(); ctx.shadowColor='rgba(255,255,255,0.8)'; ctx.shadowBlur=6; ctx.fillStyle=theme.ink; ctx.fillText(text, x, y); ctx.restore(); }
 
-  function blockTitle(text, x, y){
-    // 見出しはやや太く、影を薄く
-    ctx.save();
-    ctx.shadowColor = 'rgba(255,255,255,0.8)'; ctx.shadowBlur = 6;
-    ctx.fillStyle = theme.ink; ctx.fillText(text, x, y);
-    ctx.restore();
+  async function ensureBase(){
+    if(baseImg) return baseImg;
+    try{ baseImg = await loadImage(BASE_IMAGE_URL); }
+    catch(e){ console.warn('ベース画像読み込み失敗', e); baseImg = null; }
+    return baseImg;
   }
 
   async function drawTicket(data){
     const W=canvas.width, H=canvas.height;
 
-    // 背景（外部ベース or フォールバック）
+    // 背景（固定ベース or フォールバック）
     ctx.fillStyle = theme.bg; ctx.fillRect(0,0,W,H);
-    if(data.baseImageUrl){
-      try{ const img = await loadImage(data.baseImageUrl); if(img) drawFittedImage(img, data.baseFit||'cover'); }
-      catch(e){ console.warn('ベース画像読み込み失敗', e); }
-    }
-    if(!data.baseImageUrl){ // フォールバック：明るい帯＋白面
-      ctx.fillStyle = '#ffffff';
-      roundRect(24,24, W-48, H-48, 24, true);
-      lightBand(40,60, W-80, 90);
+    const img = await ensureBase();
+    if(img){ drawFittedImage(img, BASE_FIT); }
+    else { // フォールバック：明るい帯＋白面
+      ctx.fillStyle = '#ffffff'; roundRect(24,24, W-48, H-48, 24, true); lightBand(40,60, W-80, 90);
     }
 
     // タイトル / レース名
-    ctx.font = 'bold 44px system-ui, "Noto Sans JP"';
-    blockTitle('順番あてクイズ — 馬券風チケット', 56, 110);
-
-    ctx.font = '700 40px system-ui, "Noto Sans JP"';
-    ctx.fillStyle = theme.race; labelText(trunc(data.race,30), 56, 160);
+    ctx.font = 'bold 44px system-ui, "Noto Sans JP"'; blockTitle('順番あてクイズ — 馬券風チケット', 56, 110);
+    ctx.font = '700 40px system-ui, "Noto Sans JP"'; ctx.fillStyle = theme.race; labelText(trunc(data.race,30), 56, 160);
 
     // 本文枠（白地）
     ctx.fillStyle = theme.panel; roundRect(56, 190, W-112, 300, 18, true);
 
     // 見出し
-    ctx.fillStyle = theme.sub; ctx.font = '600 24px system-ui, "Noto Sans JP"';
-    labelText('予想順位', 72, 226, theme.sub);
+    ctx.fillStyle = theme.sub; ctx.font = '600 24px system-ui, "Noto Sans JP"'; labelText('予想順位', 72, 226, theme.sub);
 
     // 順位
     const labels=['1位','2位','3位'];
@@ -219,50 +187,32 @@ document.getElementById('baseImageUrl').value = 'img/test.png';
     // フッター（ID・ニックネーム・発行時刻）
     const issuedAt = data.issuedAt ? new Date(data.issuedAt) : new Date();
     ctx.fillStyle = theme.subtle; roundRect(56, H-120, W-112, 64, 12, true);
-
-    ctx.font = '600 20px system-ui'; ctx.fillStyle = theme.sub;
-    labelText('回答ID', 72, H-84, theme.sub);
-    labelText('ニックネーム', 360, H-84, theme.sub);
-    labelText('発行時刻', 720, H-84, theme.sub);
-
-    ctx.font = '700 26px system-ui'; ctx.fillStyle = theme.ink;
-    labelText(data.answerId, 72, H-48, theme.ink);
-    labelText(trunc(data.nickname||'—', 18), 360, H-48, theme.ink);
-    labelText(formatTs(issuedAt), 720, H-48, theme.ink);
+    ctx.font = '600 20px system-ui'; ctx.fillStyle = theme.sub; labelText('回答ID', 72, H-84, theme.sub); labelText('ニックネーム', 360, H-84, theme.sub); labelText('発行時刻', 720, H-84, theme.sub);
+    ctx.font = '700 26px system-ui'; ctx.fillStyle = theme.ink; labelText(data.answerId, 72, H-48, theme.ink); labelText(trunc(data.nickname||'—', 18), 360, H-48, theme.ink); labelText(formatTs(issuedAt), 720, H-48, theme.ink);
 
     // DLリンクとクリップボード
     const blob = await new Promise(res => canvas.toBlob(res, 'image/png', 0.95));
-    const url = URL.createObjectURL(blob);
-    $('#downloadLink').href = url; $('#downloadLink').download = `${data.answerId}.png`;
-    $('#copyBtn').onclick = async ()=>{
-      try{ const item = new ClipboardItem({ 'image/png': blob }); await navigator.clipboard.write([item]); $('#status').textContent = '画像をコピーしました。'; }
-      catch(e){ $('#status').textContent = 'コピーに失敗しました（ブラウザ制限の可能性）。'; }
-    };
+    const url = URL.createObjectURL(blob); $('#downloadLink').href = url; $('#downloadLink').download = `${data.answerId}.png`;
+    $('#copyBtn').onclick = async ()=>{ try{ const item = new ClipboardItem({ 'image/png': blob }); await navigator.clipboard.write([item]); $('#status').textContent='画像をコピーしました。'; } catch(e){ $('#status').textContent='コピーに失敗しました（ブラウザ制限の可能性）。'; }};
   }
 
   function genAnswerId(){ return 'Q'+Date.now().toString(36).toUpperCase(); }
 
   async function onSubmit(){
-    const data={
-      race: $('#race').value.trim(), nickname: $('#nickname').value.trim(),
-      pick1: $('#pick1').value.trim(), pick2: $('#pick2').value.trim(), pick3: $('#pick3').value.trim(),
-      baseImageUrl: $('#baseImageUrl').value.trim(), baseFit: $('#baseFit').value,
-      answerId: genAnswerId(), issuedAt: Date.now()
-    };
+    const data={ race: $('#race').value.trim(), nickname: $('#nickname').value.trim(), pick1: $('#pick1').value.trim(), pick2: $('#pick2').value.trim(), pick3: $('#pick3').value.trim(), answerId: genAnswerId(), issuedAt: Date.now() };
     if(!data.race || !data.pick1 || !data.pick2){ $('#status').textContent = 'レース名と1〜2位は必須です。'; return; }
-    $('#status').textContent = data.baseImageUrl ? 'ベース画像を読み込み中…' : '明るいテーマで描画中…';
+    const img = await ensureBase();
+    $('#status').textContent = img ? 'ベース画像で描画中…' : 'ベース画像が見つからないため、デフォルト背景で描画します。';
     await drawTicket(data);
     $('#status').textContent = '発行しました。PNG保存またはコピーできます。';
   }
 
   $('#submitBtn').addEventListener('click', onSubmit);
 
-  // 初期プレビュー（明るいトーン）
+  // 初期プレビュー
   (async()=>{
-    await drawTicket({
-      race:'デモ：順番あてグランプリ', nickname:'デモ', pick1:'Aチーム', pick2:'Bチーム', pick3:'Cチーム',
-      baseImageUrl:'', baseFit:'cover', answerId:'DEMO', issuedAt: Date.now()
-    });
+    await ensureBase();
+    await drawTicket({ race:'デモ：順番あてグランプリ', nickname:'デモ', pick1:'Aチーム', pick2:'Bチーム', pick3:'Cチーム', answerId:'DEMO', issuedAt: Date.now() });
   })();
 </script>
 </body>
