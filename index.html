@@ -187,8 +187,8 @@
   function genAnswerId(){ return 'Q'+Date.now().toString(36).toUpperCase(); }
 
   async function onSubmit(){
-    const data={ race: $('#race').value.trim(), nickname: $('#nickname').value.trim(), pick1: $('#pick1').value.trim(), pick2: $('#pick2').value.trim(), pick3: $('#pick3').value.trim(), answerId: genAnswerId(), issuedAt: Date.now() };
-    if(!data.race || !data.pick1 || !data.pick2){ $('#status').textContent = 'レース名と1〜2位は必須です。'; return; }
+    const data={nickname: $('#nickname').value.trim(), pick1: $('#pick1').value.trim(), pick2: $('#pick2').value.trim(), pick3: $('#pick3').value.trim(), answerId: genAnswerId(), issuedAt: Date.now() };
+    if(!data.pick1 || !data.pick2 || !data.pick3){ $('#status').textContent = '1〜3着の指定は必須です。'; return; }
     const img = await ensureBase();
     $('#status').textContent = img ? 'ベース画像で描画中…' : 'ベース画像が見つからないため、デフォルト背景で描画します。';
     await drawTicket(data);
