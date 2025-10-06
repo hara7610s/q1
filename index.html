@@ -100,6 +100,11 @@
   </div>
 
 <script>
+// ページ読込後に自動セット
+document.getElementById('baseImageUrl').value = 'img/test.png';
+</script>
+
+<script>
   const $ = (s)=>document.querySelector(s);
   const canvas = $('#ticket');
   const ctx = canvas.getContext('2d');
