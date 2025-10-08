@@ -186,7 +186,7 @@
 
   function genAnswerId(){ return 'Q'+Date.now().toString(36).toUpperCase(); }
 
-  const GAS_URL = "https://script.google.com/macros/s/AKfycbz0i2U65PV4B-AkW4o9PlSuQrjOeBg-b1hFJ9_rs1Nq67jX0UqGhMGd_72HxFTJiwcR/exec";
+  const GAS_URL = "https://script.google.com/macros/s/AKfycbwqTYNRJ03TUyZ1pwe35IuJwqGpR9Esv1o71trfK-YVd31Cbn1K3ZDuzuM2qalSQZd6/exec";
 
   async function onSubmit(){
     const data = {
@@ -207,7 +207,7 @@
     try{
       await fetch(GAS_URL, {
         method:'POST',
-        headers:{'Content-Type':'application/json'},
+        headers:{'Content-Type':'text/plain;charset=utf-8'},
         body: JSON.stringify({
           ts: data.issuedAt,
           nickname: data.nickname,
