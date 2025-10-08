@@ -162,17 +162,15 @@
     // 順位
     const labels=['1位','2位','3位'];
     const picks=[data.pick1,data.pick2,data.pick3].filter(Boolean);
-    const baseY=50;
+    const baseY=80;
     picks.forEach((p,i)=>{
-      const y = baseY + i*100;
-      ctx.fillStyle = theme.ink; ctx.font = '700 40px system-ui, "Noto Sans JP"'; labelText(p, 400, y, theme.ink);
+      const y = baseY + i*140;
+      ctx.fillStyle = theme.ink; ctx.font = '700 40px system-ui, "Noto Sans JP"'; labelText(p, 450, y, theme.ink);
     });
 
     // フッター（ID・ニックネーム・発行時刻）
     const issuedAt = data.issuedAt ? new Date(data.issuedAt) : new Date();
-    ctx.fillStyle = theme.subtle; roundRect(56, H-120, W-112, 64, 12, true);
-    ctx.font = '600 20px system-ui'; ctx.fillStyle = theme.sub; labelText('回答ID', 72, H-84, theme.sub); labelText('ニックネーム', 360, H-84, theme.sub); labelText('発行時刻', 720, H-84, theme.sub);
-    ctx.font = '700 26px system-ui'; ctx.fillStyle = theme.ink; labelText(data.answerId, 72, H-48, theme.ink); labelText(trunc(data.nickname||'—', 18), 360, H-48, theme.ink); labelText(formatTs(issuedAt), 720, H-48, theme.ink);
+    ctx.font = '700 20px system-ui'; ctx.fillStyle = theme.ink; labelText(trunc(data.nickname||'—', 18), 150, H-30, theme.ink); labelText(data.answerId, 400, H-30, theme.ink); labelText(formatTs(issuedAt), 600, H-30, theme.ink);
 
     // DLリンクとクリップボード
     const blob = await new Promise(res => canvas.toBlob(res, 'image/png', 0.95));
