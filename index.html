@@ -186,25 +186,6 @@
 
   function genAnswerId(){ return 'Q'+Date.now().toString(36).toUpperCase(); }
 
-  async function onSubmit(){
-    const data={nickname: $('#nickname').value.trim(), pick1: $('#pick1').value.trim(), pick2: $('#pick2').value.trim(), pick3: $('#pick3').value.trim(), answerId: genAnswerId(), issuedAt: Date.now() };
-    if(!data.pick1 || !data.pick2 || !data.pick3){ $('#status').textContent = '1〜3着の指定は必須です。'; return; }
-    const img = await ensureBase();
-    $('#status').textContent = img ? 'ベース画像で描画中…' : 'ベース画像が見つからないため、デフォルト背景で描画します。';
-    await drawTicket(data);
-    $('#status').textContent = '発行しました。PNG保存またはコピーできます。';
-  }
-
-  $('#submitBtn').addEventListener('click', onSubmit);
-
-  // 初期プレビュー
-  (async()=>{
-    await ensureBase();
-    await drawTicket({ race:'デモ：順番あてグランプリ', nickname:'デモ', pick1:'Aチーム', pick2:'Bチーム', pick3:'Cチーム', answerId:'DEMO', issuedAt: Date.now() });
-  })();
-</script>
-
-<script>
   const GAS_URL = "https://script.google.com/macros/s/AKfycbxo8KqSwhQ1czHIkDPr66b0MH1ar3KjF6xstS7g9qnEVL2XEW9s6poTSICIRklTHn6E/exec";
 
   async function onSubmit(){
@@ -242,8 +223,23 @@
       $('#status').textContent = '画像は発行しましたが、提出の記録に失敗しました。';
     }
   }
+
+  // async function onSubmit(){
+  //   const data={nickname: $('#nickname').value.trim(), pick1: $('#pick1').value.trim(), pick2: $('#pick2').value.trim(), pick3: $('#pick3').value.trim(), answerId: genAnswerId(), issuedAt: Date.now() };
+  //   if(!data.pick1 || !data.pick2 || !data.pick3){ $('#status').textContent = '1〜3着の指定は必須です。'; return; }
+  //   const img = await ensureBase();
+  //   $('#status').textContent = img ? 'ベース画像で描画中…' : 'ベース画像が見つからないため、デフォルト背景で描画します。';
+  //   await drawTicket(data);
+  //   $('#status').textContent = '発行しました。PNG保存またはコピーできます。';
+  // }
+
+  $('#submitBtn').addEventListener('click', onSubmit);
+
+  // 初期プレビュー
+  (async()=>{
+    await ensureBase();
+    await drawTicket({ race:'デモ：順番あてグランプリ', nickname:'デモ', pick1:'Aチーム', pick2:'Bチーム', pick3:'Cチーム', answerId:'DEMO', issuedAt: Date.now() });
+  })();
 </script>
-
-
 </body>
 </html>
