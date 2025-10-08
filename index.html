@@ -190,7 +190,6 @@
 
   async function onSubmit(){
     const data = {
-      race: $('#race').value.trim(),
       nickname: $('#nickname').value.trim(),
       pick1: $('#pick1').value.trim(),
       pick2: $('#pick2').value.trim(),
@@ -198,8 +197,8 @@
       answerId: genAnswerId(),
       issuedAt: Date.now()
     };
-    if(!data.race || !data.pick1 || !data.pick2){
-      $('#status').textContent = 'レース名と1〜2位は必須です。'; return;
+    if(!data.pick1 || !data.pick2 || !data.pick3){
+      $('#status').textContent = 'レース名と1〜3位は必須です。'; return;
     }
     // 画像発行
     await drawTicket(data);
@@ -210,7 +209,6 @@
         method:'POST',
         headers:{'Content-Type':'application/json'},
         body: JSON.stringify({
-          race: data.race,
           nickname: data.nickname,
           pick1: data.pick1,
           pick2: data.pick2,
