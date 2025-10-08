@@ -209,6 +209,7 @@
         method:'POST',
         headers:{'Content-Type':'application/json'},
         body: JSON.stringify({
+          ts: data.issuedAt,
           nickname: data.nickname,
           pick1: data.pick1,
           pick2: data.pick2,
