@@ -44,21 +44,21 @@
           <label>1位 予想</label>
           <select id="pick1" required>
             <option value="">選択してください</option>
-            <option>1 吉岡里帆</option><option>2 中条あやみ</option><option>3 多部未華子</option><option>4 山田杏奈</option><option>5 幾田りら</option><option>6 あの</option><option>7 ラランドサーヤ</option>
+            <option>1  吉岡里帆</option><option>2  中条あやみ</option><option>3  多部未華子</option><option>4  山田杏奈</option><option>5  幾田りら</option><option>6  あの</option><option>7  ラランドサーヤ</option>
           </select>
         </div>
         <div>
           <label>2位 予想</label>
           <select id="pick2" required>
             <option value="">選択してください</option>
-            <option>1 吉岡里帆</option><option>2 中条あやみ</option><option>3 多部未華子</option><option>4 山田杏奈</option><option>5 幾田りら</option><option>6 あの</option><option>7 ラランドサーヤ</option>
+            <option>1  吉岡里帆</option><option>2  中条あやみ</option><option>3  多部未華子</option><option>4  山田杏奈</option><option>5  幾田りら</option><option>6  あの</option><option>7  ラランドサーヤ</option>
           </select>
         </div>
         <div>
           <label>3位 予想</label>
           <select id="pick3">
             <option value="">選択してください</option>
-            <option>1 吉岡里帆</option><option>2 中条あやみ</option><option>3 多部未華子</option><option>4 山田杏奈</option><option>5 幾田りら</option><option>6 あの</option><option>7 ラランドサーヤ</option>
+            <option>1  吉岡里帆</option><option>2  中条あやみ</option><option>3  多部未華子</option><option>4  山田杏奈</option><option>5  幾田りら</option><option>6  あの</option><option>7  ラランドサーヤ</option>
           </select>
         </div>
         <div style="grid-column:1/-1; display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
@@ -162,15 +162,15 @@
     // 順位
     const labels=['1位','2位','3位'];
     const picks=[data.pick1,data.pick2,data.pick3].filter(Boolean);
-    const baseY=80;
+    const baseY=90;
     picks.forEach((p,i)=>{
-      const y = baseY + i*140;
-      ctx.fillStyle = theme.ink; ctx.font = '700 40px system-ui, "Noto Sans JP"'; labelText(p, 450, y, theme.ink);
+      const y = baseY + i*160;
+      ctx.fillStyle = theme.ink; ctx.font = '700 50px system-ui, "Noto Sans JP"'; labelText(p, 440, y, theme.ink);
     });
 
     // フッター（ID・ニックネーム・発行時刻）
     const issuedAt = data.issuedAt ? new Date(data.issuedAt) : new Date();
-    ctx.font = '700 20px system-ui'; ctx.fillStyle = theme.ink; labelText(trunc(data.nickname||'—', 18), 150, H-30, theme.ink); labelText(data.answerId, 400, H-30, theme.ink); labelText(formatTs(issuedAt), 600, H-30, theme.ink);
+    ctx.font = '700 16px system-ui'; ctx.fillStyle = theme.ink; labelText(trunc(data.nickname||'—', 18), 300, H-20, theme.ink); labelText(data.answerId, 400, H-20, theme.ink); labelText(formatTs(issuedAt), 600, H-20, theme.ink);
 
     // DLリンクとクリップボード
     const blob = await new Promise(res => canvas.toBlob(res, 'image/png', 0.95));
