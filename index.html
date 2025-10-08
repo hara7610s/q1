@@ -31,7 +31,7 @@
 </head>
 <body>
   <div class="wrap">
-    <h1>ウェディングパーティー  🏇サンレンタン🏇｜馬券投票ページ</h1>
+    <h1>ウェディングパーティー <br>🏇サンレンタン🏇<br>馬券投票ページ</h1>
     <p class="lead">第1問 新郎がかわいいと言うと新婦が嫉妬する女性芸能人は？</p>
 
     <div class="card" style="margin-top:8px">
@@ -44,36 +44,35 @@
           <label>1位 予想</label>
           <select id="pick1" required>
             <option value="">選択してください</option>
-            <option>1&nbsp;&nbsp;吉岡里帆</option><option>2&nbsp;&nbsp;中条あやみ</option><option>3&nbsp;&nbsp;多部未華子</option><option>4&nbsp;&nbsp;山田杏奈</option><option>5&nbsp;&nbsp;幾田りら</option><option>6&nbsp;&nbsp;あの</option><option>7&nbsp;&nbsp;ラランドサーヤ</option>
+            <option>1&nbsp;&nbsp;&nbsp;吉岡里帆</option><option>2&nbsp;&nbsp;&nbsp;中条あやみ</option><option>3&nbsp;&nbsp;&nbsp;多部未華子</option><option>4&nbsp;&nbsp;&nbsp;山田杏奈</option><option>5&nbsp;&nbsp;&nbsp;幾田りら</option><option>6&nbsp;&nbsp;&nbsp;あの</option><option>7&nbsp;&nbsp;&nbsp;ラランドサーヤ</option>
           </select>
         </div>
         <div>
           <label>2位 予想</label>
           <select id="pick2" required>
             <option value="">選択してください</option>
-            <option>1&nbsp;&nbsp;吉岡里帆</option><option>2&nbsp;&nbsp;中条あやみ</option><option>3&nbsp;&nbsp;多部未華子</option><option>4&nbsp;&nbsp;山田杏奈</option><option>5&nbsp;&nbsp;幾田りら</option><option>6&nbsp;&nbsp;あの</option><option>7&nbsp;&nbsp;ラランドサーヤ</option>
+            <option>1&nbsp;&nbsp;&nbsp;吉岡里帆</option><option>2&nbsp;&nbsp;&nbsp;中条あやみ</option><option>3&nbsp;&nbsp;&nbsp;多部未華子</option><option>4&nbsp;&nbsp;&nbsp;山田杏奈</option><option>5&nbsp;&nbsp;&nbsp;幾田りら</option><option>6&nbsp;&nbsp;&nbsp;あの</option><option>7&nbsp;&nbsp;&nbsp;ラランドサーヤ</option>
           </select>
         </div>
         <div>
           <label>3位 予想</label>
           <select id="pick3">
             <option value="">選択してください</option>
-            <option>1&nbsp;&nbsp;吉岡里帆</option><option>2&nbsp;&nbsp;中条あやみ</option><option>3&nbsp;&nbsp;多部未華子</option><option>4&nbsp;&nbsp;山田杏奈</option><option>5&nbsp;&nbsp;幾田りら</option><option>6&nbsp;&nbsp;あの</option><option>7&nbsp;&nbsp;ラランドサーヤ</option>
+            <option>1&nbsp;&nbsp;&nbsp;吉岡里帆</option><option>2&nbsp;&nbsp;&nbsp;中条あやみ</option><option>3&nbsp;&nbsp;&nbsp;多部未華子</option><option>4&nbsp;&nbsp;&nbsp;山田杏奈</option><option>5&nbsp;&nbsp;&nbsp;幾田りら</option><option>6&nbsp;&nbsp;&nbsp;あの</option><option>7&nbsp;&nbsp;&nbsp;ラランドサーヤ</option>
           </select>
         </div>
         <div style="grid-column:1/-1; display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
-          <button class="btn" id="submitBtn">馬券発行</button>
-          <a id="downloadLink" class="btn secondary" download>画像保存</a>
+          <button class="btn secondary" id="submitBtn">馬券発行</button>
+          <!-- <a id="downloadLink" class="btn secondary" download>画像保存</a> -->
           <button id="copyBtn" type="button" class="btn ghost">画像をコピー</button>
           <span id="status" class="tips"></span>
         </div>
       </form>
-      <p class="tips" style="margin-top:8px">※ ベース画像は <code>img/test.png</code> を利用します。<br>GitHub Pages（Project Pages）の場合、<code>index.html</code> と同階層に <code>img/</code> フォルダを置いてください。</p>
     </div>
 
     <div class="card" style="margin-top:12px">
-      <h3 style="margin:0 0 8px">プレビュー</h3>
-      <canvas id="ticket" width="850" height="530" aria-label="馬券風プレビュー"></canvas>
+      <h3 style="margin:0 0 8px">馬券</h3>
+      <canvas id="ticket" width="850" height="530" aria-label="馬券"></canvas>
     </div>
   </div>
 
@@ -161,15 +160,15 @@
 
     // 順位
     const picks=[data.pick1,data.pick2,data.pick3].filter(Boolean);
-    const baseY=100;
+    const baseY=105;
     picks.forEach((p,i)=>{
-      const y = baseY + i*160;
-      ctx.fillStyle = theme.ink; ctx.font = '700 55px system-ui, "Noto Sans JP"'; labelText(p, 440, y, theme.ink);
+      const y = baseY + i*155;
+      ctx.fillStyle = theme.ink; ctx.font = '700 55px system-ui, "Noto Sans JP"'; labelText(p, 430, y, theme.ink);
     });
 
     // フッター（ID・ニックネーム・発行時刻）
     const issuedAt = data.issuedAt ? new Date(data.issuedAt) : new Date();
-    ctx.font = '700 16px system-ui'; ctx.fillStyle = theme.ink; labelText(trunc(data.nickname||'—', 18), 400, H-20, theme.ink); labelText(data.answerId, 500, H-20, theme.ink); labelText(formatTs(issuedAt), 600, H-20, theme.ink);
+    ctx.font = '700 16px system-ui'; ctx.fillStyle = theme.ink; labelText(trunc(data.nickname||'—', 18), 400, H-20, theme.ink); labelText(data.answerId, 500, H-20, theme.ink); labelText(formatTs(issuedAt), 650, H-20, theme.ink);
 
     // DLリンクとクリップボード
     const blob = await new Promise(res => canvas.toBlob(res, 'image/png', 0.95));
@@ -210,9 +209,9 @@
           answerId: data.answerId
         })
       });
-      $('#status').textContent = '発行＆提出を記録しました。';
+      $('#status').textContent = '馬券発行＆投票内容を記録しました。';
     }catch(e){
-      $('#status').textContent = '発行＆提出を記録しました。';
+      $('#status').textContent = '馬券発行＆投票内容を記録しました。';
     }
   }
 
