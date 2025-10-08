@@ -31,8 +31,8 @@
 </head>
 <body>
   <div class="wrap">
-    <h1>ウェディングパーティー <br>🏇サンレンタン🏇<br>馬券投票ページ</h1>
-    <p class="lead">第1問 新郎がかわいいと言うと新婦が嫉妬する女性芸能人は？</p>
+    <h1>ウェディングパーティー🏇サンレンタン🏇<br>馬券投票ページ</h1>
+    <p class="lead">第1問<br>新郎がかわいいと言うと新婦が嫉妬する女性芸能人は？</p>
 
     <div class="card" style="margin-top:8px">
       <form id="quizForm" onsubmit="return false;" class="row">
@@ -44,21 +44,21 @@
           <label>1位 予想</label>
           <select id="pick1" required>
             <option value="">選択してください</option>
-            <option>1&nbsp;&nbsp;&nbsp;吉岡里帆</option><option>2&nbsp;&nbsp;&nbsp;中条あやみ</option><option>3&nbsp;&nbsp;&nbsp;多部未華子</option><option>4&nbsp;&nbsp;&nbsp;山田杏奈</option><option>5&nbsp;&nbsp;&nbsp;幾田りら</option><option>6&nbsp;&nbsp;&nbsp;あの</option><option>7&nbsp;&nbsp;&nbsp;ラランドサーヤ</option>
+            <option>1&nbsp;&nbsp;&nbsp;&nbsp;吉岡里帆</option><option>2&nbsp;&nbsp;&nbsp;&nbsp;中条あやみ</option><option>3&nbsp;&nbsp;&nbsp;&nbsp;多部未華子</option><option>4&nbsp;&nbsp;&nbsp;&nbsp;山田杏奈</option><option>5&nbsp;&nbsp;&nbsp;&nbsp;幾田りら</option><option>6&nbsp;&nbsp;&nbsp;&nbsp;あの</option><option>7&nbsp;&nbsp;&nbsp;&nbsp;ラランドサーヤ</option>
           </select>
         </div>
         <div>
           <label>2位 予想</label>
           <select id="pick2" required>
             <option value="">選択してください</option>
-            <option>1&nbsp;&nbsp;&nbsp;吉岡里帆</option><option>2&nbsp;&nbsp;&nbsp;中条あやみ</option><option>3&nbsp;&nbsp;&nbsp;多部未華子</option><option>4&nbsp;&nbsp;&nbsp;山田杏奈</option><option>5&nbsp;&nbsp;&nbsp;幾田りら</option><option>6&nbsp;&nbsp;&nbsp;あの</option><option>7&nbsp;&nbsp;&nbsp;ラランドサーヤ</option>
+            <option>1&nbsp;&nbsp;&nbsp;&nbsp;吉岡里帆</option><option>2&nbsp;&nbsp;&nbsp;&nbsp;中条あやみ</option><option>3&nbsp;&nbsp;&nbsp;&nbsp;多部未華子</option><option>4&nbsp;&nbsp;&nbsp;&nbsp;山田杏奈</option><option>5&nbsp;&nbsp;&nbsp;&nbsp;幾田りら</option><option>6&nbsp;&nbsp;&nbsp;&nbsp;あの</option><option>7&nbsp;&nbsp;&nbsp;&nbsp;ラランドサーヤ</option>
           </select>
         </div>
         <div>
           <label>3位 予想</label>
           <select id="pick3">
             <option value="">選択してください</option>
-            <option>1&nbsp;&nbsp;&nbsp;吉岡里帆</option><option>2&nbsp;&nbsp;&nbsp;中条あやみ</option><option>3&nbsp;&nbsp;&nbsp;多部未華子</option><option>4&nbsp;&nbsp;&nbsp;山田杏奈</option><option>5&nbsp;&nbsp;&nbsp;幾田りら</option><option>6&nbsp;&nbsp;&nbsp;あの</option><option>7&nbsp;&nbsp;&nbsp;ラランドサーヤ</option>
+            <option>1&nbsp;&nbsp;&nbsp;&nbsp;吉岡里帆</option><option>2&nbsp;&nbsp;&nbsp;&nbsp;中条あやみ</option><option>3&nbsp;&nbsp;&nbsp;&nbsp;多部未華子</option><option>4&nbsp;&nbsp;&nbsp;&nbsp;山田杏奈</option><option>5&nbsp;&nbsp;&nbsp;&nbsp;幾田りら</option><option>6&nbsp;&nbsp;&nbsp;&nbsp;あの</option><option>7&nbsp;&nbsp;&nbsp;&nbsp;ラランドサーヤ</option>
           </select>
         </div>
         <div style="grid-column:1/-1; display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
@@ -160,10 +160,10 @@
 
     // 順位
     const picks=[data.pick1,data.pick2,data.pick3].filter(Boolean);
-    const baseY=105;
+    const baseY=103;
     picks.forEach((p,i)=>{
-      const y = baseY + i*155;
-      ctx.fillStyle = theme.ink; ctx.font = '700 55px system-ui, "Noto Sans JP"'; labelText(p, 430, y, theme.ink);
+      const y = baseY + i*157;
+      ctx.fillStyle = theme.ink; ctx.font = '700 50px system-ui, "Noto Sans JP"'; labelText(p, 430, y, theme.ink);
     });
 
     // フッター（ID・ニックネーム・発行時刻）
