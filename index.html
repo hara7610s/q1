@@ -62,7 +62,7 @@
           </select>
         </div>
         <div style="grid-column:1/-1; display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
-          <button class="btn secondary" id="submitBtn">馬券発行</button>
+          <button class="btn" id="submitBtn">馬券発行</button>
           <!-- <a id="downloadLink" class="btn secondary" download>画像保存</a> -->
           <button id="copyBtn" type="button" class="btn ghost">画像をコピー</button>
           <span id="status" class="tips"></span>
@@ -163,7 +163,7 @@
     const baseY=103;
     picks.forEach((p,i)=>{
       const y = baseY + i*157;
-      ctx.fillStyle = theme.ink; ctx.font = '700 50px system-ui, "Noto Sans JP"'; labelText(p, 430, y, theme.ink);
+      ctx.fillStyle = theme.ink; ctx.font = '700 48px system-ui, "Noto Sans JP"'; labelText(p, 432, y, theme.ink);
     });
 
     // フッター（ID・ニックネーム・発行時刻）
