@@ -202,11 +202,23 @@
 
     canvas {
       width: 100%;
+      max-width: 100%;
+      display: block;
       height: auto;
       border-radius: 0;
       border: 1px solid #e2e8f0;
       background: #fff;
       box-shadow: var(--shadow-sm);
+    }
+
+    @media (max-width: 640px) {
+      body {
+        padding: 16px;
+      }
+
+      .card {
+        padding: 20px;
+      }
     }
 
     h3 {
